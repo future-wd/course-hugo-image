@@ -13,13 +13,20 @@
         </figure>
       </div>
       <div class="col-md-6">
-
+        <h2>.Resources.ByType</h2>
+        {{ $img2 := .Resources.ByType "image" }}
+        {{ range $index, $element := $img2 }}
+        <figure class="figure">
+          <img src="{{ $element.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.ByType image {{ add $index 1 }}</figcaption>
+        </figure>
+        {{ end }}
       </div>
       <div class="col-md-6">
 
       </div>
       <div class="col-md-6">
-        
+
       </div>
     </div>
   </div>
