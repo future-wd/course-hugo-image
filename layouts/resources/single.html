@@ -23,10 +23,22 @@
         {{ end }}
       </div>
       <div class="col-md-6">
-
+        <h2>.Resources.Match</h2>
+        {{ $img3 := .Resources.Match "images/*2*"}}
+        {{ range $index, $element := $img3 }}
+        <figure class="figure">
+          <img src="{{ $element.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.Match image {{ add $index 1 }}</figcaption>
+        </figure>
+        {{ end }}
       </div>
       <div class="col-md-6">
-
+        <h2>.Resources.GetMatch</h2>
+        {{ $img4 := .Resources.GetMatch "images/*4*"}}
+        <figure class="figure">
+          <img src="{{ $img4.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch</figcaption>
+        </figure>
       </div>
     </div>
   </div>
