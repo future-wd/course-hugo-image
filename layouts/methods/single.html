@@ -9,6 +9,7 @@
     </div>
     <div class="row">
       <div class="col-md-6">
+        <h2>.Resize</h2>
         {{ $img1 := .Resources.GetMatch "**1*" }}
         {{ $img1 = $img1.Resize "600x" }}
         <figure class="figure">
@@ -17,22 +18,32 @@
         </figure>
       </div>
       <div class="col-md-6">
+        <h2>.Resize</h2>
         {{ $img2 := .Resources.GetMatch "**2*" }}
-        {{ $img2 = $img1.Resize "x400" }}
+        {{ $img2 = $img2.Resize "x400" }}
         <figure class="figure">
           <img src="{{ $img2.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
           <figcaption class="figure-caption">.Resources.GetMatch - Resize to a height of 400px and preserve ratio</figcaption>
         </figure>
       </div>
       <div class="col-md-6">
+        <h2>.Resize</h2>
         {{ $img3 := .Resources.GetMatch "**3*" }}
-        {{ $img3 = $img1.Resize "600x300" }}
+        {{ $img3 = $img3.Resize "600x300" }}
         <figure class="figure">
           <img src="{{ $img3.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
           <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width 600px and a height of 300px</figcaption>
         </figure>
       </div>
-      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <h2>.Fit</h2>
+        {{ $img4 := .Resources.GetMatch "**4*" }}
+        {{ $img4 := $img4.Fit "400x400" }}
+        <figure class="figure">
+          <img src="{{ $img4.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch - Fit within a 400x400px box</figcaption>
+        </figure>
+      </div>
       <div class="col-md-6"></div>
       <div class="col-md-6"></div>
     </div>
