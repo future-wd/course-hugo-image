@@ -14,7 +14,7 @@
       </div>
       <div class="col-md-6">
         <h2>.Resources.ByType</h2>
-        {{ $img2 := .Resources.ByType "image" }}
+        {{ $img2  := .Resources.ByType "image" }}
         {{ range $index, $element := $img2 }}
         <figure class="figure">
           <img src="{{ $element.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
@@ -33,12 +33,7 @@
         {{ end }}
       </div>
       <div class="col-md-6">
-        <h2>.Resources.GetMatch</h2>
-        {{ $img4 := .Resources.GetMatch "images/*4*"}}
-        <figure class="figure">
-          <img src="{{ $img4.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
-          <figcaption class="figure-caption">.Resources.GetMatch</figcaption>
-        </figure>
+        
       </div>
     </div>
   </div>
