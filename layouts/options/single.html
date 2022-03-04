@@ -1,0 +1,31 @@
+{{ define "main" }}
+<section class="main">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        {{ partial "title" . }}
+        <div class="py-3">{{ .Content | markdownify }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Anchor</h2>
+        {{ $img5 := .Resources.GetMatch "**1*" }}
+        {{ $img5 := $img5.Fill "400x400 TopRight" }}
+        <figure class="figure">
+          <img src="{{ $img5.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch - Fill within a 400x400px box, Anchor TopRight</figcaption>
+        </figure>
+        {{/* Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight */}}
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6"></div>
+    </div>
+  </div>
+</section>
+
+{{ end }}
