@@ -10,15 +10,23 @@
     <div class="row">
       <div class="col-md-6">
         <h2>Anchor</h2>
-        {{ $img5 := .Resources.GetMatch "**1*" }}
-        {{ $img5 := $img5.Fill "400x400 TopRight" }}
+        {{ $img1 := .Resources.GetMatch "**1*" }}
+        {{ $img1 := $img1.Fill "400x400 TopRight" }}
         <figure class="figure">
-          <img src="{{ $img5.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <img src="{{ $img1.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
           <figcaption class="figure-caption">.Resources.GetMatch - Fill within a 400x400px box, Anchor TopRight</figcaption>
         </figure>
         {{/* Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight */}}
       </div>
-      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <h2>Rotate</h2>
+        {{ $img2 := .Resources.GetMatch "**2*" }}
+        {{ $img2 = $img2.Resize "600x r90" }}
+        <figure class="figure">
+          <img src="{{ $img2.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, rotate 90 degrees counter-clockwise</figcaption>
+        </figure>
+      </div>
       <div class="col-md-6"></div>
       <div class="col-md-6"></div>
       <div class="col-md-6"></div>
