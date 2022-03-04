@@ -44,7 +44,15 @@
           <figcaption class="figure-caption">.Resources.GetMatch - Fit within a 400x400px box</figcaption>
         </figure>
       </div>
-      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <h2>.Fill</h2>
+        {{ $img5 := .Resources.GetMatch "**1*" }}
+        {{ $img5 := $img5.Fill "400x400" }}
+        <figure class="figure">
+          <img src="{{ $img5.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch - Fill within a 400x400px box</figcaption>
+        </figure>
+      </div>
       <div class="col-md-6"></div>
     </div>
   </div>
