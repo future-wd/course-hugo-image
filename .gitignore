@@ -1,4 +1,5 @@
 .hugo_build.lock
 node_modules/
 public/
+# ignore resources for local builds, comment out if uploading to netlify
 resources/
