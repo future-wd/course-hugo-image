@@ -63,7 +63,15 @@
           <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, webp format output, quality 20</figcaption>
         </figure>
       </div>
-      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <h2>Resample Filter</h2>
+        {{ $img7 := .Resources.GetMatch "**1*" }}
+        {{ $img7 = $img7.Resize "600x Gaussian" }}
+        <figure class="figure">
+          <img src="{{ $img7.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, Gaussian resample filter</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
