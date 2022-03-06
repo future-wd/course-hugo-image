@@ -54,7 +54,15 @@
           <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, webp format output, picture hint</figcaption>
         </figure>
       </div>
-      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <h2>Quality</h2>
+        {{ $img6 := .Resources.GetMatch "**4*" }}
+        {{ $img6 = $img6.Resize "600x webp q20" }}
+        <figure class="figure">
+          <img src="{{ $img6.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
+          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, webp format output, quality 20</figcaption>
+        </figure>
+      </div>
       <div class="col-md-6"></div>
     </div>
   </div>
