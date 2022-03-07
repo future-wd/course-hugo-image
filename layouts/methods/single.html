@@ -38,10 +38,10 @@
       <div class="col-md-6">
         <h2>.Fit</h2>
         {{ $img4 := .Resources.GetMatch "**4*" }}
-        {{ $img4 := $img4.Fit "400x400" }}
+        {{ $img4 = $img4.Fit "400x400" }}
         <figure class="figure">
           <img src="{{ $img4.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
-          <figcaption class="figure-caption">.Resources.GetMatch - Fit within a 400x400px box</figcaption>
+          <figcaption class="figure-caption">.Resources.GetMatch - Fit within a 400x400 box</figcaption>
         </figure>
       </div>
       <div class="col-md-6"></div>
