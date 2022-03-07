@@ -21,7 +21,7 @@
     "postcss-cli": "^9.0.2"
   },
   "otherDependencies": {
-    "hugo": "0.92.1"
+    "hugo": "0.93.2"
   },
   "repository": {
     "type": "git",
