@@ -48,10 +48,10 @@
       <div class="col-md-6">
         <h2>Background Color</h2>
         {{ $img5 := .Resources.GetMatch "**png*" }}
-        {{ $img5 = $img5.Resize "600x jpg #b31280" }}
+        {{ $img5 = $img5.Resize "600x jpeg #000000" }}
         <figure class="figure">
           <img src="{{ $img5.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
-          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, webp format output, picture hint</figcaption>
+          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, JPEG output with black background</figcaption>
         </figure>
       </div>
       <div class="col-md-6"></div>
