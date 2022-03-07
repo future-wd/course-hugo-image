@@ -37,12 +37,12 @@
         </figure>
       </div>
       <div class="col-md-6">
-        <h2>Hint</h2>
+        <h2>WebP Hint</h2>
         {{ $img4 := .Resources.GetMatch "**text*" }}
-        {{ $img4 = $img4.Resize "600x webp text" }}
+        {{ $img4 = $img4.Resize "600x webp" }}
         <figure class="figure">
           <img src="{{ $img4.RelPermalink }}" class="figure-img img-fluid rounded" alt="...">
-          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, webp format output, picture hint</figcaption>
+          <figcaption class="figure-caption">.Resources.GetMatch - Resize to a width of 600px and preserve ratio, webp format output, text image type HINT</figcaption>
         </figure>
       </div>
       <div class="col-md-6">
