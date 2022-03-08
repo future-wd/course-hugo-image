@@ -1,0 +1,5 @@
+{{- $img := .page.Resources.GetMatch .src -}}
+{{- if not $img }}
+  {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
+{{- end -}}
+
