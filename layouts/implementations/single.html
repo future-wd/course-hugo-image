@@ -9,8 +9,14 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        {{ $opts := (dict "page" . "src" "images/placeholder1.jpg" "fillRatio" (slice 4 6) "alt" "Image ratio filled to 1:1")}}
+        <h2>Aspect Ratio</h2>
+        {{ $opts := (dict "page" . "src" "images/placeholder1.jpg" "fillRatio" (slice 4 3) "alt" "Image ratio filled to 4:3")}}
         {{ partial "exercises/aspect-ratio" $opts }}
+      </div>
+      <div class="col-md-6">
+        <h2>SRCSET - Pixel Density</h2>
+        {{ $opts2 := (dict "page" . "src" "images/placeholder2.jpg"  "alt" "Image outputted at 1x, 2x densities")}}
+        {{ partial "exercises/srcset-density" $opts2 }}
       </div>
     </div>
   </div>
