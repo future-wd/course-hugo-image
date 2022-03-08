@@ -1,3 +1,24 @@
 {{- $img := .page.Resources.GetMatch .src -}}
+{{- if not $img }}
+  {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
+{{- end -}}
 {{- $fillWidth := "" -}}
 {{- $fillHeight := "" -}}
+{{- /* horizontal and vertical aspect ratios are handled seperately so image size is not increased */ -}}
+{{ if gt (index .fillRatio 0) (index .fillRatio 1) }}
+  {{- /* horizonal image ratio */ -}}
+  {{- /* numbers must be converted to float before division or they will create an answer of 0 */ -}}
+  {{ $ratio := div (index .fillRatio 1 | float ) (index .fillRatio 0 | float ) }}
+  {{ $fillWidth = $img.Width }}
+  {{- /* resulting fillHeight must be converted to integer for use with image resize */ -}}
+  {{ $fillHeight = mul $img.Width $ratio | int }}
+{{ else }}
+  {{- /* vertical image ratio */ -}}
+  {{ $ratio := div (index .fillRatio 0 | float ) (index .fillRatio 1 | float ) }}
+  {{ $fillHeight = $img.Height }}
+  {{ $fillWidth = mul $img.Height $ratio | int}}
+{{ end }}
+
+{{ $resized := $img.Fill (printf "%dx%d" $fillWidth $fillHeight ) }}
+<img src="{{ $resized.RelPermalink }}" alt="{{ .alt }}" height="{{ $resized.Height }}" width="{{ $resized.Width }}">
+
