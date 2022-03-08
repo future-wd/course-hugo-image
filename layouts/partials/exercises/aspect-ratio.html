@@ -20,5 +20,10 @@
 {{ end }}
 
 {{ $resized := $img.Fill (printf "%dx%d" $fillWidth $fillHeight ) }}
-<img src="{{ $resized.RelPermalink }}" alt="{{ .alt }}" height="{{ $resized.Height }}" width="{{ $resized.Width }}">
+<img 
+  src="{{ $resized.RelPermalink }}" 
+  alt="{{ .alt }}" 
+  height="{{ $resized.Height }}" 
+  width="{{ $resized.Width }}"
+  class="{{ .class | default "img-fluid" }}">
 
