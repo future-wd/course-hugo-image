@@ -28,4 +28,9 @@
 {{- end -}}
 {{- /* process image */ -}}
 {{- $imgResized := $img.Fill (printf "%dx%d" $fillWidth $fillHeight) -}}
-<img src="{{ $imgResized.RelPermalink }}" alt="{{ .alt }}" width="{{ $imgResized.Width }}" height="{{ $imgResized.Height }}">
+<img 
+  src="{{ $imgResized.RelPermalink }}" 
+  alt="{{ .alt }}" 
+  width="{{ $imgResized.Width }}" 
+  height="{{ $imgResized.Height }}"
+  class="{{ .class | default "img-fluid" }}">
