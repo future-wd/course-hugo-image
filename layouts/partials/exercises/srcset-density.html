@@ -1,3 +1,4 @@
+{{- /* set variables */ -}}
 {{- $img := .page.Resources.GetMatch .src -}}
 {{- if not $img }}
   {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
@@ -5,18 +6,25 @@
 {{- $densities := .densities | default (slice 1 2) -}}
 {{- $src := "" -}}
 {{- $srcset := slice -}}
+{{- /* generate images at each density, based on provided .width */ -}}
 {{- range $index, $density := $densities -}}
+  {{- /* calculate width */ -}}
   {{- $width := mul $.width $density -}}
   {{- if gt $width $img.Width -}}
     {{- warnf "Source image %s is not wide enough to resize to %dpx (%dx density)" $img.RelPermalink $width $density -}}
   {{- end -}}
+  {{- /* resize image */ -}}
   {{- $resized := $img.Resize (printf "%dx" $width) -}}
+  {{- /* add image to srcset array/slice with format "/path/image.jpg 1x" */ -}}
   {{- $srcset = $srcset | append (printf "%s %dx" $resized.RelPermalink $density) -}}
+  {{- /* if density is 1, add image to src variable for use as fallback */ -}}
   {{- if eq $density 1 -}}
     {{- $src = $resized -}}
   {{- end -}}
 {{- end -}}
+{{- /* convert srcset array/slice into a string, delimit with , between each image */ -}}
 {{- $srcset = delimit $srcset ", " -}}
+{{- /* generate images tag */ -}}
 <img 
   srcset="{{ $srcset }}"
   src="{{ $src.RelPermalink }}" 
