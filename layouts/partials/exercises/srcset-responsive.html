@@ -30,4 +30,5 @@
   alt="{{ .alt }}" 
   height="{{ $src.Height }}" 
   width="{{ $src.Width }}"
-  class="{{ .class | default "img-fluid" }}">
+  class="{{ .class | default "img-fluid" }}"
+  sizes="{{ .sizes | default "100vw" }}">
