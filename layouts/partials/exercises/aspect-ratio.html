@@ -3,6 +3,9 @@
 {{- $fillHeight := "" -}}
 {{- /* get image resource */ -}}
 {{- $img := .page.Resources.GetMatch .src -}}
+{{- if not $img -}}
+  {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
+{{- end -}}
 {{- /* height to width ratio of src image */ -}}
 {{- /* numbers must be converted to float before division or they will create an answer of 0 */ -}}
 {{- $imgRatio := div ($img.Height | float) ($img.Width | float) -}}
