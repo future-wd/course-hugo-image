@@ -10,8 +10,8 @@
 {{/* if .width present for pixel density srcset */}}
 {{- if .width -}}
   {{- $densities := .densities | default (slice 1 2) -}}
-  {{- $dessities = sort $densities -}}
-  {{- range $density := $densities -}}
+  {{- $densities = sort $densities -}}
+  {{- range $density := $densities }}
     {{- $widths = $widths | append (slice 
       (dict 
         "desc" (printf "%dx" $density)
@@ -20,10 +20,10 @@
     ) -}}
   {{- end -}}
 {{- else -}}
-  {{/* else produce responsive srcset */}}
-  {{- $userWidths := .widths | default (slice 400 800 1200) -}}
+{{/* else produce responsive srcset */}}
+  {{- $userWidths := .widths | default (slice 500 800 1200) -}}
   {{- $userWidths = sort $userWidths -}}
-  {{- range $userWidth := $userWidths -}}
+  {{- range $userWidth := $userWidths }}
     {{- $widths = $widths | append (slice 
       (dict 
         "desc" (printf "%dw" $userWidth)
@@ -35,7 +35,7 @@
 {{- /* generate images at each width */ -}}
 {{- range $index, $width := $widths -}}
   {{- if gt $width.width $img.Width -}}
-      {{- warnf "Source image %s is not wide enough to resize to %dpx" $img.RelPermalink $width -}}
+      {{- warnf "Source image %s is not wide enough to resize to %dpx" $img.RelPermalink $width.width -}}
     {{- end -}}
   {{- /* resize image */ -}}
   {{- $imgResizedOrig := $img.Resize (printf "%dx" $width.width) -}}
@@ -45,7 +45,7 @@
   {{- $srcsetWebp = $srcsetWebp | append (printf "%s %s" $imgResizedWebp.RelPermalink $width.desc) -}}
   {{- /* if 1x density (First iteration), add image to src variable for use as fallback */ -}}
   {{- if and $.width (eq $index 0) -}}
-   {{ $src = $imgResizedOrig -}}
+    {{ $src = $imgResizedOrig -}}
   {{- else -}}
     {{- /* if largest width (last iteration), add image to src variable for use as fallback */ -}}
     {{- if eq (len $widths) (add $index 1) -}}

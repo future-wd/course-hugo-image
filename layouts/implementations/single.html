@@ -30,7 +30,7 @@
       </div>
       <div class="col-md-6">
         <h2>SRCSET - Density/Responsive/WebP</h2>
-        {{ $opts5 := (dict "page" . "src" "images/placeholder1.jpg" "widths" (slice 300 600) "sizes" "(min-width: 768px) 50vw, 100vw" "alt" "Image outputted at 200 and 300px wide") }}
+        {{ $opts5 := (dict "page" . "src" "images/placeholder1.jpg" "width" 300 "sizes" "(min-width: 768px) 50vw, 100vw" "alt" "Pixel density or responsive srcset with WebP/orig format output") }}
         {{ partial "exercises/srcset-density-responsive-webp" $opts5 }}
       </div>
     </div>
