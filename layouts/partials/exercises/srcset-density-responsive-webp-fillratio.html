@@ -7,6 +7,13 @@
 {{- $srcsetOrig := slice -}}
 {{- $srcsetWebp := slice -}}
 {{- $widths := slice -}}
+{{- $fillRatio := 0 -}}
+{{- /* calculate fill ratio, if .fillRatio is provided */ -}}
+{{- if .fillRatio -}}
+  {{- /* height to width ratio of .fillRatio */ -}}
+  {{- /* numbers must be converted to float before division or they will create an answer of 0 */ -}}
+  {{- $fillRatio = div (index .fillRatio 1 | float) (index .fillRatio 0 | float) -}}
+{{- end -}}
 {{/* if .width present for pixel density srcset */}}
 {{- if .width -}}
   {{- $densities := .densities | default (slice 1 2) -}}
@@ -34,12 +41,28 @@
 {{- end -}}
 {{- /* generate images at each width */ -}}
 {{- range $index, $width := $widths -}}
-  {{- if gt $width.width $img.Width -}}
+  {{- $imgResizedOrig := "" -}}
+  {{- $imgResizedWebp := "" -}}
+  {{- /* output images with altered aspect ratio, if .fillRatio is provided */ -}}
+  {{- if $.fillRatio -}}
+    {{- /* resulting fillHeight must be converted to integer for use with image resize */ -}}
+    {{- $fillHeight := mul $width.width $fillRatio | int -}}
+    {{- if or (gt $width.width $img.Width) (gt $fillHeight $img.Height) -}}
+      {{- warnf "Source image %s (%dx%dpx) is not large enough to resize to %dx%dpx" $img.RelPermalink $img.Width $img.Height $width.width $fillHeight -}}
+    {{- end -}}
+    {{- /* resize image */ -}}
+    {{- $imgResizedOrig = $img.Fill (printf "%dx%d" $width.width $fillHeight) -}}
+    {{- $imgResizedWebp = $img.Fill (printf "%dx%d webp" $width.width $fillHeight) -}}
+  {{- else -}}
+    {{- /* do standard image resize */ -}}
+    {{- if gt $width.width $img.Width -}}
       {{- warnf "Source image %s is not wide enough to resize to %dpx" $img.RelPermalink $width.width -}}
     {{- end -}}
-  {{- /* resize image */ -}}
-  {{- $imgResizedOrig := $img.Resize (printf "%dx" $width.width) -}}
-  {{- $imgResizedWebp := $img.Resize (printf "%dx webp" $width.width) -}}
+    {{- /* resize image */ -}}
+    {{- $imgResizedOrig = $img.Resize (printf "%dx" $width.width) -}}
+    {{- $imgResizedWebp = $img.Resize (printf "%dx webp" $width.width) -}}
+  {{- end -}}
+  
   {{- /* add image to srcset array/slice with format "/path/image.jpg 100w" */ -}}
   {{- $srcsetOrig = $srcsetOrig | append (printf "%s %s" $imgResizedOrig.RelPermalink $width.desc) -}}
   {{- $srcsetWebp = $srcsetWebp | append (printf "%s %s" $imgResizedWebp.RelPermalink $width.desc) -}}
