@@ -4,6 +4,7 @@
   {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
 {{- end -}}
 {{- $densities := .densities | default (slice 1 2) -}}
+{{- $densities = sort $densities -}}
 {{- $src := "" -}}
 {{- $srcset := slice -}}
 {{- /* generate images at each density, based on provided .width */ -}}
