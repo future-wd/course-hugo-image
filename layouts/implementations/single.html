@@ -33,6 +33,11 @@
         {{ $opts5 := (dict "page" . "src" "images/placeholder1.jpg" "width" 300 "sizes" "(min-width: 768px) 50vw, 100vw" "alt" "Pixel density or responsive srcset with WebP/orig format output") }}
         {{ partial "exercises/srcset-density-responsive-webp" $opts5 }}
       </div>
+      <div class="col-md-6">
+        <h2>SRCSET - Density/Responsive/WebP/fillRatio</h2>
+        {{ $opts6 := (dict "page" . "src" "images/placeholder2.jpg" "width" 300 "sizes" "(min-width: 768px) 50vw, 100vw" "alt" "Pixel density or responsive srcset with WebP/orig format output with fillRatio") }}
+        {{ partial "exercises/srcset-density-responsive-webp-fillratio" $opts6 }}
+      </div>
     </div>
   </div>
 </section>
