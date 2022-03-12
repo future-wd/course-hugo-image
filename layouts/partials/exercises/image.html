@@ -1,0 +1,105 @@
+{{- /* set variables */ -}}
+{{- $img := .page.Resources.GetMatch .src -}}
+{{- if not $img }}
+  {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
+{{- end -}}
+{{- $src := "" -}}
+{{- $srcsetOrig := slice -}}
+{{- $srcsetWebp := slice -}}
+{{- $widths := slice -}}
+{{- $fillRatio := 0 -}}
+{{- /* calculate fill ratio, if .fillRatio is provided */ -}}
+{{- if .fillRatio -}}
+  {{- /* height to width ratio of .fillRatio */ -}}
+  {{- /* numbers must be converted to float before division or they will create an answer of 0 */ -}}
+  {{- $fillRatio = div (index .fillRatio 1 | float) (index .fillRatio 0 | float) -}}
+{{- end -}}
+{{/* if .width present for pixel density srcset */}}
+{{- if .width -}}
+  {{- $densities := .densities | default (slice 1 2) -}}
+  {{- $densities = sort $densities -}}
+  {{- range $density := $densities }}
+    {{- $widths = $widths | append (slice 
+      (dict 
+        "desc" (printf "%dx" $density)
+        "width" (mul $.width $density)
+      )
+    ) -}}
+  {{- end -}}
+{{- else -}}
+{{/* else produce responsive srcset */}}
+  {{- $userWidths := .widths | default (slice 500 800 1200) -}}
+  {{- $userWidths = sort $userWidths -}}
+  {{- range $userWidth := $userWidths }}
+    {{- $widths = $widths | append (slice 
+      (dict 
+        "desc" (printf "%dw" $userWidth)
+        "width" $userWidth
+      )
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- /* set image processing options */ -}}
+{{- $options := slice -}}
+{{- with .quality -}}
+  {{ $options = $options | append (slice (printf "q%d" .)) -}}
+{{- end -}}
+{{- with .rotate -}}
+  {{ $options = $options | append (slice (printf "r%d" .)) -}}
+{{- end -}}
+{{- with .resampleFilter -}}
+  {{ $options = $options | append (slice .) -}}
+{{- end -}}
+{{- $options = delimit $options " " -}}
+{{- /* generate images at each width */ -}}
+{{- range $index, $width := $widths -}}
+  {{- $imgResizedOrig := "" -}}
+  {{- $imgResizedWebp := "" -}}
+  {{- /* output images with altered aspect ratio, if .fillRatio is provided */ -}}
+  {{- if $.fillRatio -}}
+    {{- /* resulting fillHeight must be converted to integer for use with image resize */ -}}
+    {{- $fillHeight := mul $width.width $fillRatio | int -}}
+    {{- if or (gt $width.width $img.Width) (gt $fillHeight $img.Height) -}}
+      {{- warnf "Source image %s (%dx%dpx) is not large enough to resize to %dx%dpx" $img.RelPermalink $img.Width $img.Height $width.width $fillHeight -}}
+    {{- end -}}
+    {{- /* resize image */ -}}
+    {{- $imgResizedOrig = $img.Fill (printf "%dx%d %s %s" $width.width $fillHeight $options $.anchor) -}}
+    {{- $imgResizedWebp = $img.Fill (printf "%dx%d webp %s %s %s" $width.width $fillHeight $options $.hint $.anchor) -}}
+  {{- else -}}
+    {{- /* do standard image resize */ -}}
+    {{- if gt $width.width $img.Width -}}
+      {{- warnf "Source image %s is not wide enough to resize to %dpx" $img.RelPermalink $width.width -}}
+    {{- end -}}
+    {{- /* resize image */ -}}
+    {{- $imgResizedOrig = $img.Resize (printf "%dx %s" $width.width $options) -}}
+    {{- $imgResizedWebp = $img.Resize (printf "%dx webp %s %s" $width.width $options $.hint) -}}
+  {{- end -}}
+  
+  {{- /* add image to srcset array/slice with format "/path/image.jpg 100w" */ -}}
+  {{- $srcsetOrig = $srcsetOrig | append (printf "%s %s" $imgResizedOrig.RelPermalink $width.desc) -}}
+  {{- $srcsetWebp = $srcsetWebp | append (printf "%s %s" $imgResizedWebp.RelPermalink $width.desc) -}}
+  {{- /* if 1x density (First iteration), add image to src variable for use as fallback */ -}}
+  {{- if and $.width (eq $index 0) -}}
+    {{ $src = $imgResizedOrig -}}
+  {{- else -}}
+    {{- /* if largest width (last iteration), add image to src variable for use as fallback */ -}}
+    {{- if eq (len $widths) (add $index 1) -}}
+      {{ $src = $imgResizedOrig -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- /* convert srcset array/slice into a string, delimit with , between each image */ -}}
+{{- $srcsetOrig = delimit $srcsetOrig ", " -}}
+{{- $srcsetWebp = delimit $srcsetWebp ", " -}}
+{{- /* generate picture tag */ -}}
+<picture>
+  <source srcset="{{ $srcsetWebp }}" type="image/webp">
+  <source srcset="{{ $srcsetOrig }}" type="{{ $src.MediaType }}">
+  <img 
+    src="{{ $src.RelPermalink }}" 
+    alt="{{ .alt }}" 
+    height="{{ $src.Height }}" 
+    width="{{ $src.Width }}"
+    class="{{ .class | default "img-fluid" }}"
+    sizes="{{ .sizes | default "100vw" }}">
+</picture>

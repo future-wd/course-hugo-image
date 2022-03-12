@@ -38,6 +38,22 @@
         {{ $opts6 := (dict "page" . "src" "images/placeholder2.jpg" "fillRatio" (slice 4 3) "width" 200 "sizes" "(min-width: 768px) 50vw, 100vw" "alt" "Pixel density or responsive srcset with WebP/orig format output with fillRatio") }}
         {{ partial "exercises/srcset-density-responsive-webp-fillratio" $opts6 }}
       </div>
+      <div class="col-md-6">
+        <h2>Image Processing Partial with options</h2>
+        {{ $opts7 := (dict 
+          "page" . 
+          "src" "images/placeholder3.jpg" 
+          "fillRatio" (slice 4 3) 
+          "quality" 100
+          "hint" "picture"
+          "rotate" 90
+          "anchor" "BottomLeft"
+          "resampleFilter" "NearestNeighbor"
+          "width" 200 
+          "sizes" "(min-width: 768px) 50vw, 100vw" 
+          "alt" "Pixel density or responsive srcset with WebP/orig format output with fillRatio") }}
+        {{ partial "exercises/image" $opts7 }}
+      </div>
     </div>
   </div>
 </section>
