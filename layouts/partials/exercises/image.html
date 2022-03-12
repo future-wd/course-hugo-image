@@ -42,15 +42,40 @@
 {{- /* set image processing options */ -}}
 {{- $options := slice -}}
 {{- with .quality -}}
-  {{ $options = $options | append (slice (printf "q%d" .)) -}}
+  {{- if and (eq (printf "%T" .) "int") (and (ge . 1) (le . 100)) -}}
+    {{ $options = $options | append (slice (printf "q%d" .)) -}}
+  {{- else -}}
+    {{- warnf "Invalid .quality of %v (%s). .quality must be integer of 1-100 inclusive." . $img.RelPermalink -}}
+  {{- end -}}
 {{- end -}}
 {{- with .rotate -}}
-  {{ $options = $options | append (slice (printf "r%d" .)) -}}
+  {{- if and (eq (printf "%T" .) "int") (and (ge . 1) (le . 360)) -}}
+    {{ $options = $options | append (slice (printf "r%d" .)) -}}
+  {{- else -}}
+    {{- warnf "Invalid .rotate of %v (%s). .rotate must be integer of 1-360 inclusive." . $img.RelPermalink -}}
+  {{- end -}}
 {{- end -}}
 {{- with .resampleFilter -}}
-  {{ $options = $options | append (slice .) -}}
+  {{- $filterOpts := (slice "Box" "NearestNeighbor" "Linear" "Gaussian") -}}
+  {{- if in $filterOpts . -}}
+    {{ $options = $options | append (slice .) -}}
+  {{- else -}}
+    {{- warnf "Invalid .resampleFilter of %v (%s). Valid .resampleFilter options are %s" . $img.RelPermalink (delimit $filterOpts ", ") -}}
+  {{- end -}}
 {{- end -}}
 {{- $options = delimit $options " " -}}
+{{- with .hint -}}
+  {{- $hintOpts := (slice "picture" "photo" "drawing" "icon" "text") -}}
+  {{- if not (in $hintOpts .) -}}
+    {{- warnf "Invalid .hint of %v (%s). Valid .hint options are %s" . $img.RelPermalink (delimit $hintOpts ", ") -}}
+  {{- end -}}
+{{- end -}}
+{{- with .anchor -}}
+  {{- $anchorOpts := (slice "Smart" "Center" "TopLeft" "Top" "TopRight" "Left" "Right" "BottomLeft" "Bottom" "BottomRight") -}}
+  {{- if not (in $anchorOpts .) -}}
+    {{- warnf "Invalid .anchor of %v (%s). Valid .anchor options are %s" . $img.RelPermalink (delimit $anchorOpts ", ") -}}
+  {{- end -}}
+{{- end -}}
 {{- /* generate images at each width */ -}}
 {{- range $index, $width := $widths -}}
   {{- $imgResizedOrig := "" -}}
