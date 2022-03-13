@@ -1,5 +1,5 @@
 {{- /* set variables */ -}}
-{{- $img := .page.Resources.GetMatch .src -}}
+{{- $img := .page.Resources.GetMatch $.src -}}
 {{- if not $img }}
   {{- warnf "No image resource found at %s%s" .page.RelPermalink .src -}}
 {{- end -}}
@@ -117,6 +117,7 @@
 {{- $srcsetOrig = delimit $srcsetOrig ", " -}}
 {{- $srcsetWebp = delimit $srcsetWebp ", " -}}
 {{- /* generate picture tag */ -}}
+
 <picture>
   <source srcset="{{ $srcsetWebp }}" type="image/webp">
   <source srcset="{{ $srcsetOrig }}" type="{{ $src.MediaType }}">

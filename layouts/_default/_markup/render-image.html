@@ -1,0 +1,10 @@
+{{ $title :- "" }}
+{{ with .Title }}
+  {{ $title = . }}
+{{ end }}
+
+{{ partial "exercises/image" (dict
+      "src" .Destination
+      "page" .Page
+      "title" $title
+    ) | safeHTML }}  

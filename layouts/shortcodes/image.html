@@ -1,0 +1,17 @@
+<div class="row d-flex justify-content-center">
+  <div class="col-md-9">
+    {{ $src := "" }}
+    {{ with (.Get "src") }}
+      {{ $src = . }}
+    {{ end }}
+    {{ $alt := "" }}
+    {{ with (.Get "alt") }}
+      {{ $alt = . }}
+    {{ end }}
+    {{ partial "exercises/image" (dict
+      "src" $src
+      "page" .Page
+      "alt" $alt
+    ) | safeHTML }}  
+  </div>
+</div>
