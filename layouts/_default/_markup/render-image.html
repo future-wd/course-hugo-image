@@ -1,0 +1,23 @@
+{{- /* set variables */ -}}
+{{- $title := "" -}}
+{{- $alt := "" -}}
+{{- /* check for named params in shortcode */ -}}
+{{- with .PlainText -}}
+  {{- $alt = .}}
+{{- end -}}
+{{- with .Title -}}
+  {{- $title = .}}
+{{- end -}}
+{{- /* assign variables to dict */ -}}
+{{- $dict := (dict
+  "page" .Page 
+  "src" .Destination
+  "title" $title
+  "alt" $alt
+) -}}
+{{- /* call image partial, and use defaults for everything else */ -}}
+<div class="row d-flex justify-content-center">
+  <div class="col-md-9 d-flex justify-content-center">
+    {{ partial "exercises/image" $dict }}
+  </div>
+</div>

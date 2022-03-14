@@ -9,3 +9,7 @@ type: markdown
 Below are examples of the different implementations of the image partial with markdown.
 
 {{< image src="images/placeholder1.jpg" alt="Alt" title="Title" width="300">}}
+Image via shortcode
+
+![Alt Text (.PlainText)](images/placeholder2.jpg ".Title")
+Image via markdown with render-hook
