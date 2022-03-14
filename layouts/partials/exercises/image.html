@@ -16,7 +16,8 @@
 {{- end -}}
 {{/* if .width present for pixel density srcset */}}
 {{- if .width -}}
-  {{- $densities := .densities | default (slice 1 2) -}}
+  {{- $defaultDensities := site.Params.image.densities | default (slice 1 2) -}}
+  {{- $densities := .densities | default $defaultDensities -}}
   {{- $densities = sort $densities -}}
   {{- range $density := $densities }}
     {{- $widths = $widths | append (slice 
@@ -28,7 +29,8 @@
   {{- end -}}
 {{- else -}}
 {{/* else produce responsive srcset */}}
-  {{- $userWidths := .widths | default (slice 500 800 1200) -}}
+  {{- $defaultWidths := site.Params.image.widths | default (slice 500 800 1200) }}
+  {{- $userWidths := .widths | default $defaultWidths -}}
   {{- $userWidths = sort $userWidths -}}
   {{- range $userWidth := $userWidths }}
     {{- $widths = $widths | append (slice 
