@@ -1,0 +1,35 @@
+{{- /* set variables */ -}}
+{{- $title := "" -}}
+{{- $alt := "" -}}
+{{- $src := "" -}}
+{{- /* check for named params in shortcode */ -}}
+{{- if .IsNamedParams -}}
+  {{- with (.Get "src") -}}
+    {{- $src = .}}
+  {{- end -}}
+  {{- with (.Get "alt") -}}
+    {{- $alt = .}}
+  {{- end -}}
+  {{- with (.Get "title") -}}
+    {{- $title = .}}
+  {{- end -}}
+{{- else -}}
+{{- /* if only 1 un named param in shortcode */ -}}
+  {{- with (.Get 0) -}}
+    {{- $src = .}}
+  {{- end -}}
+{{- end -}}
+{{- /* assign variables to dict */ -}}
+{{- $dict := (dict
+  "page" .Page 
+  "src" $src
+  "title" $title
+  "alt" $alt
+) -}}
+{{- /* call image partial, and use defaults for everything else */ -}}
+<div class="row">
+  <div class="col-md-9">
+    {{ partial "exercises/image" $dict }}
+  </div>
+</div>
+
