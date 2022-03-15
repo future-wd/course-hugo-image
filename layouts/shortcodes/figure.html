@@ -1,53 +1,63 @@
+{{- /* set variables */ -}}
+{{- $title := "" -}}
+{{- $alt := "" -}}
+{{- $src := "" -}}
+{{- $width := "" -}}
+{{- /* check for named params in shortcode */ -}}
+{{- with (.Get "src") -}}
+{{- $src = .}}
+{{- end -}}
+{{- with (.Get "alt") -}}
+{{- $alt = .}}
+{{- end -}}
+{{- if or (.Get "alt") (.Get "caption") }}
+  {{ with .Get "alt" }}
+    {{ $alt = . }}
+  {{ else }}
+    {{ $alt = .Get "caption" | markdownify | plainify }}
+  {{ end }}
+{{- end -}}
+{{- with (.Get "title") -}}
+{{- $title = .}}
+{{- end -}}
+{{- with (.Get "width") -}}
+{{- $width = . | int }}
+{{- end -}}
+{{- /* assign variables to dict */ -}}
+{{- $dict := (dict
+"page" .Page
+"src" $src
+"title" $title
+"alt" $alt
+"width" $width
+) -}}
+{{- /* call image partial, and use defaults for everything else */ -}}
 <div class="row d-flex justify-content-center">
-  <div class="col-md-9">
-    {{ $src := "" }}
-    {{ with (.Get "src") }}
-      {{ $src = . }}
-    {{ end }}
-    {{ $alt := "" }}
-    {{ with (.Get "alt") }}
-      {{ $alt = . }}
-    {{ end }}
-    {{ partial "exercises/image" (dict
-      "src" $src
-      "page" .Page
-      "alt" $alt
-    ) | safeHTML }}  
+  <div class="col-md-9 d-flex justify-content-center">
 
-
-
-
-
-
-
-    
+    <figure{{ with .Get "figureClass" }} class="{{ . }}" {{ end }}>
+      {{- if .Get "link" -}}
+      <a href="{{ .Get " link" }}"{{ with .Get "target" }} target="{{ . }}" {{ end }}{{ with .Get "rel" }} rel="{{ . }}"
+        {{ end }}>
+        {{- end -}}
+        {{ partial "exercises/image" $dict }}
+        {{- if .Get "link" }}</a>{{ end -}}
+      {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
+      <figcaption>
+        {{ with (.Get "title") -}}
+        <h4>{{ . }}</h4>
+        {{- end -}}
+        {{- if or (.Get "caption") (.Get "attr") -}}<p>
+          {{- .Get "caption" | markdownify -}}
+          {{- with .Get "attrlink" }}
+          <a href="{{ . }}">
+            {{- end -}}
+            {{- .Get "attr" | markdownify -}}
+            {{- if .Get "attrlink" }}</a>{{ end }}
+        </p>
+        {{- end }}
+      </figcaption>
+      {{- end }}
+    </figure>
   </div>
 </div>
-<figure{{ with .Get "class" }} class="{{ . }}"{{ end }}>
-    {{- if .Get "link" -}}
-        <a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>
-    {{- end -}}
-    <img src="{{ .Get "src" }}"
-         {{- if or (.Get "alt") (.Get "caption") }}
-         alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
-         {{- end -}}
-         {{- with .Get "width" }} width="{{ . }}"{{ end -}}
-         {{- with .Get "height" }} height="{{ . }}"{{ end -}}
-    /><!-- Closing img tag -->
-    {{- if .Get "link" }}</a>{{ end -}}
-    {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
-        <figcaption>
-            {{ with (.Get "title") -}}
-                <h4>{{ . }}</h4>
-            {{- end -}}
-            {{- if or (.Get "caption") (.Get "attr") -}}<p>
-                {{- .Get "caption" | markdownify -}}
-                {{- with .Get "attrlink" }}
-                    <a href="{{ . }}">
-                {{- end -}}
-                {{- .Get "attr" | markdownify -}}
-                {{- if .Get "attrlink" }}</a>{{ end }}</p>
-            {{- end }}
-        </figcaption>
-    {{- end }}
-</figure>
