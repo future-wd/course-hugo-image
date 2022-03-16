@@ -1,4 +1,4 @@
-<figure{{ with .figureClass }} class="{{ . }}"{{ end }}>
+<figure class="{{ .figureClass | default (site.Params.image.figureClass | default "figure") }}">
     {{- if .link -}}
         <a href="{{ .link }}"{{ with .target }} target="{{ . }}"{{ end }}{{ with .rel }} rel="{{ . }}"{{ end }}>
     {{- end -}}
@@ -6,16 +6,16 @@
     {{- if .link }}</a>{{ end -}}
     {{- if or (or .title .caption) .attr -}}
         <figcaption>
-            {{ with .title -}}
+            {{ with .figureTitle -}}
                 <h4>{{ . }}</h4>
             {{- end -}}
             {{- if or .caption .attr -}}<p>
-                {{- .caption | markdownify -}}
-                {{- with .attrlink }}
+                {{- .caption | markdownify -}}{{ if .attr }}, {{ end -}}
+                {{- with .attrLink }}
                     <a href="{{ . }}">
                 {{- end -}}
                 {{- .attr | markdownify -}}
-                {{- if .attrlink }}</a>{{ end }}</p>
+                {{- if .attrLink }}</a>{{ end }}</p>
             {{- end }}
         </figcaption>
     {{- end }}

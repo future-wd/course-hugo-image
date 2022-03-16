@@ -1,0 +1,71 @@
+{{- /* set variables */ -}}
+{{- $title := "" -}}
+{{- $alt := "" -}}
+{{- $src := "" -}}
+{{- $width := "" -}}
+{{- $caption := "" -}}
+{{- $figureTitle := "" -}}
+{{- /* check for named params in shortcode */ -}}
+{{- if .IsNamedParams -}}
+  {{- with (.Get "src") -}}
+    {{- $src = .}}
+  {{- end -}}
+  {{- with (.Get "alt") -}}
+    {{- $alt = .}}
+  {{- end -}}
+  {{- with (.Get "title") -}}
+    {{- $title = .}}
+  {{- end -}}
+  {{- with (.Get "width") -}}
+    {{- $width = . | int }}
+  {{- end -}}
+  {{- with (.Get "caption") -}}
+    {{- $caption = .}}
+  {{- end -}}
+  {{- with (.Get "figureTitle") -}}
+    {{- $figureTitle = . -}}
+  {{- end -}}
+{{- else -}}
+{{- /* if only 1 un named param in shortcode */ -}}
+  {{- with (.Get 0) -}}
+    {{- $src = .}}
+  {{- end -}}
+{{- end -}}
+{{- /* assign variables to dict */ -}}
+{{- $dict := (dict
+  "page" .Page 
+  "src" $src
+  "title" $title
+  "alt" $alt
+  "width" $width
+  "caption" $caption
+  "figureTitle" $figureTitle
+) -}}
+
+<div class="row d-flex justify-content-center">
+  <div class="col-md-9 d-flex justify-content-center">
+    <figure class="{{ .Get "figureClass" | default (site.Params.image.figureClass | default "figure") }}" >
+      {{- if .Get "link" -}}
+      <a href="{{ .Get " link" }}"{{ with .Get "target" }} target="{{ . }}" {{ end }}{{ with .Get "rel" }} rel="{{ . }}" {{ end }}>
+        {{- end -}}
+        {{ partial "exercises/image" $dict }}
+        {{- if .Get "link" }}</a>{{ end -}}
+      {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
+      <figcaption>
+        {{ with (.Get "figureTitle") -}}
+        <h4>{{ . }}</h4>
+        {{- end -}}
+        {{- if or (.Get "caption") (.Get "attr") -}}<p>
+          {{- .Get "caption" | markdownify -}}{{ if (.Get "attr" ) }}, {{ end -}}
+          {{- with .Get "attrlink" }}
+          <a href="{{ . }}">
+            {{- end -}}
+            {{- .Get "attr" | markdownify -}}
+            {{- if .Get "attrlink" }}</a>{{ end }}
+        </p>
+        {{- end }}
+      </figcaption>
+      {{- end }}
+      </figure>
+  </div>
+</div>

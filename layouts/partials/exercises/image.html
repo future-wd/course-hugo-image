@@ -124,14 +124,22 @@
 {{- $title := .page.Title -}}
 {{- with .title -}}
   {{- $title = . -}}
+{{- else -}}
+  {{- $title = .figureTitle -}}
 {{- end -}}
 {{- /* generate picture tag */ -}}
+{{/*    
+  {{- if or (.Get "alt") (.Get "caption") }}
+         alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify | plainify }}{{ end }}"
+         {{- end -}}
+  
+  */}}
 <picture>
   <source srcset="{{ $srcsetWebp }}" type="image/webp">
   <source srcset="{{ $srcsetOrig }}" type="{{ $src.MediaType }}">
   <img 
     src="{{ $src.RelPermalink }}" 
-    alt="{{ .alt | default (.caption | default (printf "Image of %s" $title)) }}" 
+    alt="{{ .alt | default ( (.caption | markdownify | plainify) | default (printf "Image of %s" $title)) }}" 
     title="{{ $title }}"
     height="{{ $src.Height }}" 
     width="{{ $src.Width }}"
