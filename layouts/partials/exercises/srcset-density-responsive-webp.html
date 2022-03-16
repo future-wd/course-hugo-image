@@ -45,7 +45,7 @@
   {{- $srcsetWebp = $srcsetWebp | append (printf "%s %s" $imgResizedWebp.RelPermalink $width.desc) -}}
   {{- /* if 1x density (First iteration), add image to src variable for use as fallback */ -}}
   {{- if $.width -}} 
-    {{- if eq $index -}}
+    {{- if eq $index 0 -}}
       {{ $src = $imgResizedOrig -}}
     {{- end -}}
   {{- else -}}
