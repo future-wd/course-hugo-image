@@ -1,8 +1,8 @@
-<figure{{ with .figureClass | default "figure-caption" }} class="{{ . }}"{{ end }}>
+<figure{{ with .figureClass }} class="{{ . }}"{{ end }}>
     {{- if .link -}}
         <a href="{{ .link }}"{{ with .target }} target="{{ . }}"{{ end }}{{ with .rel }} rel="{{ . }}"{{ end }}>
     {{- end -}}
-    {{ partial "exercises/image" .img }}
+    {{ partial "exercises/image" . -}}
     {{- if .link }}</a>{{ end -}}
     {{- if or (or .title .caption) .attr -}}
         <figcaption>

@@ -126,13 +126,12 @@
   {{- $title = . -}}
 {{- end -}}
 {{- /* generate picture tag */ -}}
-
 <picture>
   <source srcset="{{ $srcsetWebp }}" type="image/webp">
   <source srcset="{{ $srcsetOrig }}" type="{{ $src.MediaType }}">
   <img 
     src="{{ $src.RelPermalink }}" 
-    alt="{{ .alt | default (printf "Image of %s" $title)}}" 
+    alt="{{ .alt | default (.caption | default (printf "Image of %s" $title)) }}" 
     title="{{ $title }}"
     height="{{ $src.Height }}" 
     width="{{ $src.Width }}"
