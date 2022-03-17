@@ -122,18 +122,12 @@
 {{- $srcsetWebp = delimit $srcsetWebp ", " -}}
 {{- /* generate default title */ -}}
 {{- $title := .page.Title -}}
-{{- with .title -}}
-  {{- $title = . -}}
-{{- else -}}
+{{- if .title -}}
+  {{- $title = .title -}}
+{{- else if .figureTitle -}}
   {{- $title = .figureTitle -}}
 {{- end -}}
 {{- /* generate picture tag */ -}}
-{{/*    
-  {{- if or (.Get "alt") (.Get "caption") }}
-         alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify | plainify }}{{ end }}"
-         {{- end -}}
-  
-  */}}
 <picture>
   <source srcset="{{ $srcsetWebp }}" type="image/webp">
   <source srcset="{{ $srcsetOrig }}" type="{{ $src.MediaType }}">
