@@ -8,4 +8,4 @@ type: markdown
 ---
 Below are examples of the different implementations of the image partial with markdown.
 
-{{< image src="images/placeholder1.jpg" alt="Alt" title="Title" width="300">}}
+{{< image src="images/placeholder1.jpg" alt="Alt" title="Title" widths="300,600,900">}}
