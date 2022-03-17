@@ -7,3 +7,4 @@ weight: 60
 type: implementations
 ---
 Below are examples of the different implementations of the skills learnt.
+{{< image src="images/placeholder1.jpg" alt="shortcode image" >}}

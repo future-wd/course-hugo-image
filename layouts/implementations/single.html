@@ -78,6 +78,19 @@
           ) }}
         {{ partial "exercises/image" $opts10 }}
       </div>
+      <div class="col-md-6">
+        <h2>Image Figure</h2>
+        {{ $opts11 := (dict 
+          "page" . 
+          "src" "images/placeholder2.jpg" 
+          "caption" "Figure Caption"
+          "figureTitle" "Figure Title"
+          "link" "https://www.google.com"
+          "attr" "Donald Duck"
+          "attrLink" "https://www.disney.com"
+          ) }}
+        {{ partial "exercises/figure" $opts11 }}
+      </div>
     </div>
   </div>
 </section>

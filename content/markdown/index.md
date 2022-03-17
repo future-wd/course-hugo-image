@@ -11,5 +11,8 @@ Below are examples of the different implementations of the image partial with ma
 {{< image src="images/placeholder1.jpg" alt="Alt" title="Title" width="300">}}
 Image via shortcode
 
+{{< figure src="images/placeholder1.jpg" caption="Image/Figure caption" figureTitle="Image/Figure title"  width="300">}}
+Image via shortcode
+
 ![Alt Text (.PlainText)](images/placeholder2.jpg "Title (.Title)")
 Image via markdown with render-hook
