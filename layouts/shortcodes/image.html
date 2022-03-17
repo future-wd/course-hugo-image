@@ -3,6 +3,7 @@
 {{- $alt := "" -}}
 {{- $src := "" -}}
 {{- $width := "" -}}
+{{- $widths := slice -}}
 {{- /* check for named params in shortcode */ -}}
 {{- if .IsNamedParams -}}
   {{- with (.Get "src") -}}
@@ -16,6 +17,9 @@
   {{- end -}}
   {{- with (.Get "width") -}}
     {{- $width = . | int }}
+  {{- end -}}
+  {{- with (.Get "widths") -}}
+    {{- $widths = . | int }}
   {{- end -}}
 {{- else -}}
 {{- /* if only 1 un named param in shortcode */ -}}
