@@ -1,0 +1,9 @@
+{{/*  string-to-array.html
+  context: comma delimited string of integers
+  returns: an array of integers
+  example: partial "hri/string-to-array" "500, 600, 900"
+*/}}
+{{ $array := split . "," }}
+{{ $array = apply $array "strings.TrimLeft" " " "." }}
+{{ $array = apply $array "int" "." }}
+{{ return $array }}
