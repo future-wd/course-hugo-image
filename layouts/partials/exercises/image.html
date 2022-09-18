@@ -135,6 +135,6 @@
     title="{{ $title }}"
     height="{{ $src.Height }}" 
     width="{{ $src.Width }}"
-    class="{{ .class | default ( site.Params.image.class | default "img-fluid") }}"
+    class="{{ .class | default site.Params.image.class | default "img-fluid" }}"
     sizes="{{ .sizes | default "100vw" }}">
 </picture>

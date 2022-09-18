@@ -67,7 +67,7 @@ params:
     widths: [600, 900, 1300]
     shortcodeWidths: [600, 900, 1300]
     renderHookImageWidths: [600, 900, 1300]
-    densities: 1,2
+    densities: [1,2]
     class: img-fluid
 
 
