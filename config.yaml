@@ -61,12 +61,15 @@ imaging:
     # Hugo extracts the "photo taken where" (GPS latitude and longitude) into
     # .Long and .Lat. Set this to true to turn it off.
     disableLatLong: false
-
+    
 params:
   image:
     widths: [600, 900, 1300]
-    # densities: [1,2]
+    shortcodeWidths: [600, 900, 1300]
+    renderHookImageWidths: [600, 900, 1300]
+    densities: 1,2
     class: img-fluid
     figureClass: figure
+
 
         
