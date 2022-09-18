@@ -1,23 +1,14 @@
-{{- /* set variables */ -}}
-{{- $title := "" -}}
-{{- $alt := "" -}}
-{{- /* check for named params in shortcode */ -}}
-{{- with .PlainText -}}
-  {{- $alt = .}}
-{{- end -}}
-{{- with .Title -}}
-  {{- $title = .}}
-{{- end -}}
-{{- /* assign variables to dict */ -}}
-{{- $dict := (dict
-  "page" .Page 
+{{- $widths := site.Params.image.renderHookWidths | default site.Params.image.ShortCodeWidths | default site.Params.image.widths | default (slice 600 900 1300) -}}
+{{- $params := (dict 
   "src" .Destination
-  "title" $title
-  "alt" $alt
-) -}}
-{{- /* call image partial, and use defaults for everything else */ -}}
-<div class="row d-flex justify-content-center">
-  <div class="col-md-9 d-flex justify-content-center">
-    {{ partial "exercises/image" $dict }}
+  "alt" .PlainText 
+  "page" .Page 
+  "title" .Title 
+  "widths" $widths
+  ) -}}
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-9 d-flex justify-content-center">
+      {{ partial "exercises/image" $params }}
+    </div>
   </div>
-</div>
+
