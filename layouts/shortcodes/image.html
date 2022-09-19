@@ -1,8 +1,34 @@
-
-{{- /* call image partial, and use defaults for everything else */ -}}
+{{- $params := (dict
+  "page" .Page 
+  "name" .Name
+  ) -}}
+{{- if .IsNamedParams -}}
+  {{- $params = merge $params .Params -}}
+  {{- $widths := "" -}}
+  {{- with .Get "widths" -}}
+    {{- $widths = partial "hri/string-to-array" . -}}
+  {{- else -}}
+    {{ $widths = site.Params.image.shortcodeWidths | default site.Params.image.widths | default (slice 600 900 1300) -}}
+  {{- end -}}
+  {{- $params = merge $params (dict "widths" $widths) -}}
+  {{- with .Get "densities" -}}
+    {{- $densities := partial "hri/string-to-array" . -}}
+    {{- $params = merge $params (dict "densities" $densities) -}}
+  {{- end -}}
+  {{- with .Get "fillRatio" -}}
+    {{- $fillRatio := partial "hri/string-to-array" . -}}
+    {{- $params = merge $params (dict "fillRatio" $fillRatio) -}}
+  {{- end -}}
+{{- else -}}
+  {{- $params = merge $params (dict 
+    "src" (.Get 0)
+    )}}
+{{- end -}}
 <div class="row d-flex justify-content-center">
   <div class="col-md-9 d-flex justify-content-center">
-    {{ partial "exercises/image-shortcode.html" . }}
+    {{ partial "exercises/image" $params }}
   </div>
 </div>
 
+
+ 

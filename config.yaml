@@ -72,4 +72,9 @@ params:
     figureClass: figure
 
 
+params:
+  image:
+    widths: [600, 900, 1300]
+    shortcodeWidths: [600, 900, 1300]
+    renderHookImageWidths: [600, 900, 1300]
         
